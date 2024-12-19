@@ -1,0 +1,16 @@
+<h1>Список клиентов</h1>
+<table>
+    <tr>
+        <th>Имя</th>
+        <th>Действия</th>
+    </tr>
+    {% for client in clients %}
+    <tr>
+        <td>{{ client.username }}</td>
+        <td>
+            <a href="{% url 'block_user' client.id %}">Заблокировать</a>
+            <a href="{% url 'assign_manager_role' client.id %}">Выдать роль менеджера</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>

@@ -1,0 +1,34 @@
+<div class="col-md-2 sidebar" id="sidebar">
+    <h4 class="menu-title">Меню</h4>
+    <nav class="navbar navbar-light">
+        <ul class="navbar-nav">
+            <li class="nav-item"><a class="nav-link" href="{% url 'mailing:statistics' %}"><i class="bi bi-person-lines-fill"></i> Статистика</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'mailing:mailing' %}"><i class="bi bi-people"></i> Получатели и сообщения</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'mailing:my_newsletters' %}"><i class="bi bi-envelope"></i> Мои рассылки</a></li>
+            <li class="nav-item"><a class="nav-link btn btn-success" href="{% url 'mailing:create_newsletter' %}"><i class="bi bi-pencil"></i> Создать рассылку</a></li>
+        </ul>
+    </nav>
+    <div class="mt-auto">
+        <div class="dropdown" style="position: absolute; bottom: 20px;">
+            {% if user.is_authenticated %}
+                <button class="btn btn-light dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="bi bi-person"></i> {{ user.username }}
+                </button>
+                <form method="POST" action="{% url 'users:logout' %}">
+                    {% csrf_token %}
+                    <ul class="dropdown-menu" aria-labelledby="userDropdown">
+                        <li><a class="dropdown-item" href="{% url 'users:profile_edit' %}">Редактировать профиль</a></li>
+                        <button type="submit" class="dropdown-item">Выйти</button>
+                    </ul>
+                </form>
+            {% else %}
+                <a class="btn" href="{% url 'users:login' %}">
+                    <i class="bi bi-box-arrow-in-right"></i> Войти
+                </a>
+                <a class="btn" href="{% url 'users:register' %}">
+                    <i class="bi bi-person-plus"></i> Регистрация
+                </a>
+            {% endif %}
+        </div>
+    </div>
+</div>

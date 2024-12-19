@@ -1,0 +1,59 @@
+{% extends "mailing/base.html" %}
+
+{% block title %}Панель управления{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="text-center mb-4">Панель управления менеджера</h1>
+
+    <h2 class="mt-4">Список пользователей</h2>
+    <div class="list-group mb-4">
+        {% for user in users %}
+            <div class="list-group-item d-flex justify-content-between align-items-center">
+                <div>
+                    <strong>{{ user.username }}</strong>
+                    {% if user.is_active %}
+                        <span class="badge bg-success">Активен</span>
+                    {% else %}
+                        <span class="badge bg-danger">Заблокирован</span>
+                    {% endif %}
+                </div>
+                <div>
+                    {% if user.is_active %}
+                        <form method="post" style="display:inline;">
+                            {% csrf_token %}
+                            <input type="hidden" name="user_id" value="{{ user.id }}">
+                            <button type="submit" name="block_user" class="btn btn-danger btn-sm">Заблокировать</button>
+                        </form>
+                    {% else %}
+                        <form method="post" style="display:inline;">
+                            {% csrf_token %}
+                            <input type="hidden" name="user_id" value="{{ user.id }}">
+                            <button type="submit" name="unblock_user" class="btn btn-success btn-sm">Разблокировать</button>
+                        </form>
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <h2 class="mt-4">Управление рассылками</h2>
+    <div class="list-group">
+        {% for newsletter in newsletters %}
+            <div class="list-group-item d-flex justify-content-between align-items-center">
+                <div>
+                    <strong>ID:</strong> {{ newsletter.id }} -
+                    <strong>Сообщение:</strong> {{ newsletter.message }} -
+                    <strong>Статус:</strong> {{ newsletter.status }} -
+                    <strong>Владелец:</strong> {{ newsletter.owner.username }}
+                </div>
+                <form method="post" style="display:inline;">
+                    {% csrf_token %}
+                    <input type="hidden" name="newsletter_id" value="{{ newsletter.id }}">
+                    <button type="submit" name="stop_newsletter" class="btn btn-warning btn-sm">Остановить рассылку</button>
+                </form>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

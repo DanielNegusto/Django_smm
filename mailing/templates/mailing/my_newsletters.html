@@ -1,0 +1,59 @@
+{% extends "mailing/base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>Мои рассылки</h1>
+    <table class="table table-bordered table-striped">
+        <thead class="thead-dark">
+            <tr>
+                <th>Дата и время начала</th>
+                <th>Сообщение</th>
+                <th>Статус</th>
+                <th>Осталось времени</th>
+                <th>Действия</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for newsletter in newsletters %}
+                <tr>
+                    <td>{{ newsletter.start_time|date:"d.m.Y H:i" }}</td>
+                    <td>{{ newsletter.message.subject }}</td>
+                    <td>{{ newsletter.status }}</td>
+                    <td>
+                        {% if newsletter.remaining_hours == 0 and newsletter.remaining_minutes == 0 and newsletter.remaining_seconds == 0 %}
+                            0
+                        {% else %}
+                            {{ newsletter.remaining_hours }}ч {{ newsletter.remaining_minutes }}м {{ newsletter.remaining_seconds }}с
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="{% url 'mailing:edit_newsletter' newsletter.id %}" class="btn btn-warning btn-sm me-3">Изменить</a>
+                        <a href="{% url 'mailing:delete_newsletter' newsletter.id %}" class="btn btn-danger btn-sm me-3">Удалить</a>
+                        <a href="{% url 'mailing:newsletter_attempts' newsletter.pk %}" class="btn btn-info btn-sm me-3">Попытки</a>
+                        {% if newsletter.status == 'Приостановлена' or newsletter.status == 'Создана' %}
+                        <form action="{% url 'mailing:send_newsletter' newsletter.id %}" method="post" style="display: inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-success btn-sm">
+                                {% if newsletter.status == 'Приостановлена' %}
+                                    Возобновить
+                                {% else %}
+                                    Отправить
+                                {% endif %}
+                            </button>
+                        </form>
+                        {% endif %}
+
+                        <!-- Кнопка для приостановки рассылки, если она запущена -->
+                        {% if newsletter.status == 'Запущена' %}
+                        <form action="{% url 'mailing:pause_newsletter' newsletter.id %}" method="post" style="display: inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-warning btn-sm">Приостановить</button>
+                        </form>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

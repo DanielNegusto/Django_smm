@@ -1,0 +1,17 @@
+{% extends "mailing/base.html" %}
+
+{% block content %}
+  <h1>Удалить?</h1>
+  <p>Вы уверены, что хотите удалить
+    {% if object_type == 'message' %}
+      сообщение "{{ object.subject }}"
+    {% else %}
+      получателя "{{ object.email }}"
+    {% endif %}?
+  </p>
+  <form method="post">
+    {% csrf_token %}
+    <button type="submit">Удалить</button>
+    <a href="{% url 'mailing:mailing' %}">Отмена</a>
+  </form>
+{% endblock %}

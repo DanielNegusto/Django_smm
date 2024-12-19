@@ -1,0 +1,35 @@
+{% extends "mailing/base.html" %}
+
+{% block title %}Статистика рассылок{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="text-center mb-4">Статистика рассылок</h1>
+
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <div class="card text-center mb-4">
+                <div class="card-header">
+                    <h4>Общая информация</h4>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">Всего рассылок: <strong>{{ total_newsletters }}</strong></p>
+                    <p class="card-text">Активные рассылки: <strong>{{ active_newsletters }}</strong></p>
+                    <p class="card-text">Уникальные получатели: <strong>{{ unique_recipients }}</strong></p>
+                    <p class="card-text">Всего попыток рассылок: <strong>{{ total_attempts }}</strong></p>
+                    <p class="card-text">Успешные попытки: <strong>{{ successful_attempts }}</strong></p>
+                    <p class="card-text">Неуспешные попытки: <strong>{{ unsuccessful_attempts }}</strong></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% if is_manager %}
+    <div class="alert alert-info text-center" role="alert">
+        <h4 class="alert-heading">Добро пожаловать, Менеджер!</h4>
+        <p>Вы можете управлять рассылками и просматривать более детальную статистику.</p>
+        <a class="btn btn-primary" href="{% url 'mailing:dashboard' %}">Панель управления</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
