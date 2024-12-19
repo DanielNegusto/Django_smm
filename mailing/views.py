@@ -1,7 +1,9 @@
 import logging
 import threading
 import time
-
+from django.core.cache import cache
+from django.views.decorators.cache import cache_page
+from django.utils.decorators import method_decorator
 from django.core.mail import send_mail
 from django.views.generic import CreateView, UpdateView, DeleteView, ListView, View, TemplateView
 from django.shortcuts import render, redirect, get_object_or_404
@@ -20,6 +22,7 @@ from .forms import NewsletterForm, MessageForm, RecipientForm
 logger = logging.getLogger(__name__)
 
 
+@method_decorator(cache_page(60 * 15), name='dispatch')  # Кеширование на 15 минут
 class MailingView(LoginRequiredMixin, ListView):
     model = Newsletter
     template_name = 'mailing/mailing.html'
@@ -144,6 +147,7 @@ class DeleteNewsletterView(LoginRequiredMixin, DeleteView):
 
 
 # List and Send Newsletters
+@method_decorator(cache_page(60 * 15), name='dispatch')  # Кеширование на 15 минут
 class MyNewslettersView(LoginRequiredMixin, ListView):
     model = Newsletter
     template_name = 'mailing/my_newsletters.html'
@@ -272,6 +276,7 @@ class PauseNewsletterView(LoginRequiredMixin, View):
         return redirect('mailing:my_newsletters')
 
 
+@method_decorator(cache_page(60 * 15), name='dispatch')  # Кеширование на 15 минут
 class AttemptListView(ListView):
     model = Attempt
     template_name = 'mailing/attempt_list.html'
@@ -282,6 +287,7 @@ class AttemptListView(ListView):
         return Attempt.objects.filter(newsletter_id=newsletter_id).order_by('-attempt_time')
 
 
+@method_decorator(cache_page(60 * 15), name='dispatch')  # Кеширование на 15 минут
 class StatisticsView(LoginRequiredMixin, TemplateView):
     template_name = 'mailing/statistics.html'
 
@@ -305,6 +311,7 @@ class StatisticsView(LoginRequiredMixin, TemplateView):
         context['is_manager'] = user.groups.filter(name='Менеджеры').exists()
 
         return context
+
 
 
 class ManagerDashboardView(ManagerRequiredMixin, ListView):
