@@ -6,10 +6,10 @@ from .models import CustomUser
 class CustomUserAdmin(UserAdmin):
     model = CustomUser
     fieldsets = UserAdmin.fieldsets + (
-        (None, {'fields': ('avatar', 'phone_number', 'country')}),
+        (None, {"fields": ("avatar", "phone_number", "country")}),
     )
     add_fieldsets = UserAdmin.add_fieldsets + (
-        (None, {'fields': ('avatar', 'phone_number', 'country')}),
+        (None, {"fields": ("avatar", "phone_number", "country")}),
     )
 
 

@@ -8,18 +8,41 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('mailing', '0001_initial'),
+        ("mailing", "0001_initial"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Attempt',
+            name="Attempt",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('attempt_time', models.DateTimeField(default=django.utils.timezone.now)),
-                ('status', models.CharField(choices=[('Успешно', 'Успешно'), ('Не успешно', 'Не успешно')], max_length=10)),
-                ('server_response', models.TextField(blank=True)),
-                ('newsletter', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='mailing.newsletter')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "attempt_time",
+                    models.DateTimeField(default=django.utils.timezone.now),
+                ),
+                (
+                    "status",
+                    models.CharField(
+                        choices=[("Успешно", "Успешно"), ("Не успешно", "Не успешно")],
+                        max_length=10,
+                    ),
+                ),
+                ("server_response", models.TextField(blank=True)),
+                (
+                    "newsletter",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="mailing.newsletter",
+                    ),
+                ),
             ],
         ),
     ]

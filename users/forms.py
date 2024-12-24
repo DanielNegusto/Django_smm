@@ -5,47 +5,58 @@ from .models import CustomUser
 
 # Общий метод для обновления атрибутов
 def update_widget_attrs(field, placeholder):
-    field.widget.attrs.update({
-        'class': 'form-control',
-        'placeholder': placeholder
-    })
+    field.widget.attrs.update({"class": "form-control", "placeholder": placeholder})
 
 
 class UserRegistrationForm(forms.ModelForm):
     password = forms.CharField(
-        widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Введите пароль'}),
-        label="Пароль"
+        widget=forms.PasswordInput(
+            attrs={"class": "form-control", "placeholder": "Введите пароль"}
+        ),
+        label="Пароль",
     )
     password_confirm = forms.CharField(
-        widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Подтвердите пароль'}),
-        label="Подтверждение пароля"
+        widget=forms.PasswordInput(
+            attrs={"class": "form-control", "placeholder": "Подтвердите пароль"}
+        ),
+        label="Подтверждение пароля",
     )
 
     class Meta:
         model = CustomUser
-        fields = ['username', 'email', 'password', 'password_confirm', 'avatar', 'phone_number', 'country']
+        fields = [
+            "username",
+            "email",
+            "password",
+            "password_confirm",
+            "avatar",
+            "phone_number",
+            "country",
+        ]
         labels = {
-            'username': 'Имя пользователя',
-            'email': 'Электронная почта',
-            'avatar': 'Аватар',
-            'phone_number': 'Номер телефона',
-            'country': 'Страна',
+            "username": "Имя пользователя",
+            "email": "Электронная почта",
+            "avatar": "Аватар",
+            "phone_number": "Номер телефона",
+            "country": "Страна",
         }
         widgets = {
-            'username': forms.TextInput(),
-            'email': forms.EmailInput(),
-            'avatar': forms.ClearableFileInput(),
-            'phone_number': forms.TextInput(),
-            'country': forms.TextInput(),
+            "username": forms.TextInput(),
+            "email": forms.EmailInput(),
+            "avatar": forms.ClearableFileInput(),
+            "phone_number": forms.TextInput(),
+            "country": forms.TextInput(),
         }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         # Обновление атрибутов для полей
-        update_widget_attrs(self.fields['username'], 'Введите имя пользователя')
-        update_widget_attrs(self.fields['email'], 'Введите адрес электронной почты')
-        update_widget_attrs(self.fields['phone_number'], 'Введите номер телефона (необязательно)')
-        update_widget_attrs(self.fields['country'], 'Введите страну (необязательно)')
+        update_widget_attrs(self.fields["username"], "Введите имя пользователя")
+        update_widget_attrs(self.fields["email"], "Введите адрес электронной почты")
+        update_widget_attrs(
+            self.fields["phone_number"], "Введите номер телефона (необязательно)"
+        )
+        update_widget_attrs(self.fields["country"], "Введите страну (необязательно)")
 
     def clean(self):
         cleaned_data = super().clean()
@@ -68,18 +79,23 @@ class UserRegistrationForm(forms.ModelForm):
 class ProfileUpdateForm(forms.ModelForm):
     class Meta:
         model = get_user_model()
-        fields = ['email', 'avatar', 'phone_number', 'country']
+        fields = ["email", "avatar", "phone_number", "country"]
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         # Обновление атрибутов для полей
-        update_widget_attrs(self.fields['email'], 'Введите ваш email')
-        update_widget_attrs(self.fields['phone_number'], 'Введите номер телефона')
-        update_widget_attrs(self.fields['country'], 'Введите страну')
+        update_widget_attrs(self.fields["email"], "Введите ваш email")
+        update_widget_attrs(self.fields["phone_number"], "Введите номер телефона")
+        update_widget_attrs(self.fields["country"], "Введите страну")
 
     def clean_email(self):
-        email = self.cleaned_data.get('email')
-        if email and get_user_model().objects.filter(email=email).exclude(id=self.instance.id).exists():
+        email = self.cleaned_data.get("email")
+        if (
+            email
+            and get_user_model()
+            .objects.filter(email=email)
+            .exclude(id=self.instance.id)
+            .exists()
+        ):
             raise forms.ValidationError("Этот email уже используется.")
         return email
-    

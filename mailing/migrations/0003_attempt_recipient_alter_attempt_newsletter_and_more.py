@@ -7,28 +7,39 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('mailing', '0002_attempt'),
+        ("mailing", "0002_attempt"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='attempt',
-            name='recipient',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, to='mailing.recipient'),
+            model_name="attempt",
+            name="recipient",
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                to="mailing.recipient",
+            ),
         ),
         migrations.AlterField(
-            model_name='attempt',
-            name='newsletter',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='attempts', to='mailing.newsletter'),
+            model_name="attempt",
+            name="newsletter",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="attempts",
+                to="mailing.newsletter",
+            ),
         ),
         migrations.AlterField(
-            model_name='attempt',
-            name='server_response',
+            model_name="attempt",
+            name="server_response",
             field=models.TextField(),
         ),
         migrations.AlterField(
-            model_name='attempt',
-            name='status',
-            field=models.CharField(choices=[('Успешно', 'Успешно'), ('Не успешно', 'Не успешно')], max_length=20),
+            model_name="attempt",
+            name="status",
+            field=models.CharField(
+                choices=[("Успешно", "Успешно"), ("Не успешно", "Не успешно")],
+                max_length=20,
+            ),
         ),
     ]

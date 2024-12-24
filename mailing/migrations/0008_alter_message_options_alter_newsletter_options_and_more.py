@@ -6,20 +6,38 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('mailing', '0007_alter_recipient_email'),
+        ("mailing", "0007_alter_recipient_email"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='message',
-            options={'permissions': [('can_view_message', 'Can view message'), ('can_edit_message', 'Can edit message'), ('can_delete_message', 'Can delete message')]},
+            name="message",
+            options={
+                "permissions": [
+                    ("can_view_message", "Can view message"),
+                    ("can_edit_message", "Can edit message"),
+                    ("can_delete_message", "Can delete message"),
+                ]
+            },
         ),
         migrations.AlterModelOptions(
-            name='newsletter',
-            options={'permissions': [('can_view_newsletter', 'Can view newsletter'), ('can_edit_newsletter', 'Can edit newsletter'), ('can_delete_newsletter', 'Can delete newsletter')]},
+            name="newsletter",
+            options={
+                "permissions": [
+                    ("can_view_newsletter", "Can view newsletter"),
+                    ("can_edit_newsletter", "Can edit newsletter"),
+                    ("can_delete_newsletter", "Can delete newsletter"),
+                ]
+            },
         ),
         migrations.AlterModelOptions(
-            name='recipient',
-            options={'permissions': [('can_view_recipient', 'Can view recipient'), ('can_edit_recipient', 'Can edit recipient'), ('can_delete_recipient', 'Can delete recipient')]},
+            name="recipient",
+            options={
+                "permissions": [
+                    ("can_view_recipient", "Can view recipient"),
+                    ("can_edit_recipient", "Can edit recipient"),
+                    ("can_delete_recipient", "Can delete recipient"),
+                ]
+            },
         ),
     ]
