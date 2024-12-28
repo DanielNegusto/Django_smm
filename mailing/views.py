@@ -172,7 +172,7 @@ class MyNewslettersView(LoginRequiredMixin, ListView):
     template_name = "mailing/my_newsletters.html"
     context_object_name = "newsletters"
 
-    @method_decorator(cache_page(10))
+    @method_decorator(cache_page(5))
     def dispatch(self, *args, **kwargs):
         return super().dispatch(*args, **kwargs)
 
@@ -315,6 +315,10 @@ class AttemptListView(ListView):
 
 class StatisticsView(LoginRequiredMixin, TemplateView):
     template_name = "mailing/statistics.html"
+
+    @method_decorator(cache_page(5))
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
