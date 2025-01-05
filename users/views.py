@@ -21,6 +21,7 @@ from django.utils.http import urlsafe_base64_decode
 from django.utils.encoding import force_str
 from django.contrib import messages
 
+from App.settings import DEFAULT_FROM_EMAIL
 from .forms import UserRegistrationForm, ProfileUpdateForm
 
 
@@ -44,7 +45,7 @@ class RegisterView(FormView):
             f"Здравствуйте, {user.username}! Пожалуйста, "
             f"подтвердите свою регистрацию, перейдя по следующей ссылке: {activation_link}"
         )
-        send_mail(subject, message, "admin@example.com", [user.email])
+        send_mail(subject, message, DEFAULT_FROM_EMAIL, [user.email])
 
         return redirect("mailing:statistics")
 
@@ -84,8 +85,8 @@ class CustomLoginView(LoginView):
     def get_user(email):
         from django.contrib.auth import get_user_model
 
-        User = get_user_model()
-        return User.objects.get(email=email)
+        User_model = get_user_model()
+        return User_model.objects.get(email=email)
 
 
 class ProfileUpdateView(LoginRequiredMixin, UpdateView):
